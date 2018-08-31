@@ -1,5 +1,4 @@
 
-from Patente import Patente
 
 import pandas as pd
 import os
@@ -10,7 +9,7 @@ import re
 from TideneReadCorpus import *
 
 PATH = "../../base-wipo/"
-PREPROCESS_PATH = "../../base-wipo/preprocess/"
+PREPROCESS_PATH = "../../base-wipo/preprocess_lemm_stemm/"
 TRAIN_SET_PATH = "../../base-wipo/treinamento.csv"
 TEST_SET_PATH = "../../base-wipo/treinamento.csv"
 

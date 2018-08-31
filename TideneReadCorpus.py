@@ -2,8 +2,8 @@ import csv
 import re
 import nltk
 from nltk.corpus import stopwords
-
-
+from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer
 
 
 class TideneIterCSVW2V(object):
@@ -31,6 +31,8 @@ class TideneIterCSVCorpus(object):
 	def __init__(self,csvfile):
 		self.stopwords = set(stopwords.words('english'))
 		self.tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
+		self.porter_stemmer = PorterStemmer()
+		self.wordnet_lemmatizer = WordNetLemmatizer()
 
 		
 		csv.field_size_limit(10**9)
@@ -48,6 +50,8 @@ class TideneIterCSVCorpus(object):
 			row[6] = re.sub("[^a-zA-Z]", " ", row[6].lower())
 			row[6] = [w for w in self.tokenizer.tokenize(row[6]) if w not in self.stopwords and len(w) > 3]
 			row[6] = ' '.join(row[6])
+			row[6] = [self.wordnet_lemmatizer.lemmatize(self.porter_stemmer.stem(w)) for w in row[6]]
+			
 			index += 1
 		
 			yield row #['data']
@@ -57,7 +61,7 @@ class TideneIterCSVCorpus(object):
 
 class TideneIterCSVClass(object):
 	def __init__(self,csvfile):
-
+		self.tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
 		csv.field_size_limit(10**9)
 		self.reader = csv.reader(open(csvfile,"r"),delimiter=";", quoting=csv.QUOTE_MINIMAL)
 		self.reader.__next__()
@@ -71,4 +75,5 @@ class TideneIterCSVClass(object):
 		for index,row in enumerate(self.reader):
 			print("Progress:", (index+1), "/", self.totalsents)
 			index += 1
-			yield re.sub("[^a-zA-Z]", " ", row[6].lower())  #['data']
+			
+			yield row[6]  #['data']

@@ -16,7 +16,6 @@ from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from gensim.models import KeyedVectors
 import os
-from bs4 import BeautifulSoup
 from sklearn.model_selection import train_test_split
 from TfidfEmbeddingVectorizer import *
 from MeanEmbeddingVectorizer import *
@@ -26,26 +25,36 @@ from nltk.metrics import *
 import gensim.models.word2vec as w2v
 from TideneReadCorpus import *
 
-TRAIN_SET_PATH = "r8-train-no-stop.txt"
-GLOVE_6B_50D_PATH = "glove.6B.50d.txt"
-GLOVE_840B_300D_PATH = "glove.840B.300d.txt"
-PATH = "../../base-wipo/preprocess/"
+
+    
+#PATH = "../../base-wipo/preprocess/"
+PATH = "../../base-wipo/preprocess_lemm_stemm/"
+teste = "teste.csv"
+treinamento = "treinamento.csv"
 
 
 
 def main():
 
 
-    X_test = TideneIterCSVClass(PATH+"teste.csv")
-    X_train = TideneIterCSVClass(PATH+"treinamento.csv")
+    X_test = TideneIterCSVClass(PATH+teste)
+    X_train = TideneIterCSVClass(PATH+treinamento)
 
-    Y_test = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+"teste.csv"),
+    Y_test = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+teste),
                         header=0,delimiter=";",usecols=["section"], quoting=3)
-    Y_train = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+"treinamento.csv"),
+    Y_train = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
                         header=0,delimiter=";",usecols=["section"], quoting=3)
     
+    #Estatistica
+    sections = ["A","B","C","D","E","F","G","H"]
+    print("Conjunto de treinamento ...")
+    result = [(x, Y_train['section'].tolist().count(x)) for x in sections]
+    print(result)
+    
+    print("Conjunto de teste ...")
+    result = [(x, Y_test['section'].tolist().count(x)) for x in sections]
+    print(result)
 
-    print(Y_test)
     '''
     train = pd.read_csv(os.path.join(os.path.dirname(__file__),'labeledTrainData.tsv'),
                         header=0,delimiter="\t", quoting=3)
@@ -84,8 +93,23 @@ def main():
 
     w2v = dict(zip(model.wv.index2word, model.wv.syn0))
 
+    
+    from sklearn.feature_extraction.text import TfidfTransformer
+    from sklearn.naive_bayes import MultinomialNB
+    from sklearn.metrics import confusion_matrix
+    tfidf_transformer = TfidfVectorizer()
 
+    clf = MultinomialNB().fit(tfidf_transformer.fit_transform(X_train), Y_train)
 
+    predict = clf.predict(tfidf_transformer.transform(X_test))
+
+    print(accuracy(Y_test['section'].tolist(),predict))  
+
+    cm = confusion_matrix(Y_test['section'].tolist(), predict, labels = sections)
+    print(cm)
+
+    '''
+    
     # start with the classics - naive bayes of the multinomial and bernoulli varieties
     # with either pure counts or tfidf features
     mult_nb = Pipeline(
@@ -132,9 +156,12 @@ def main():
     unsorted_scores = []
     for name, model in all_models:
         print("Training with ", name)
-        predict = model.fit(X_train, Y_train ).predict(X_test)
-        unsorted_scores.append((name,accuracy(Y_test,predict),\
-            f_measure(set(Y_test),set(predict)), precision(set(Y_test),set(predict)),recall(set(Y_test),set(predict))))
+        predict = model.fit(X_train, Y_train['section'].tolist() ).predict(X_test)
+        unsorted_scores.append((name,\
+            accuracy(Y_test['section'].tolist(),predict),\
+            f_measure(set(Y_test['section'].tolist()),set(predict)),\
+            precision(set(Y_test['section'].tolist()),set(predict)),\
+            recall(set(Y_test['section'].tolist()),set(predict))))
 
 
 
@@ -142,8 +169,7 @@ def main():
 
     print(tabulate(scores, floatfmt=".4f", headers=("model", 'Accuracy','F1','Precision','Recall')))
 
-
-
+	'''
 
 
 
