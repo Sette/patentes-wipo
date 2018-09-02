@@ -68,11 +68,6 @@ def main():
     X_test,y_test = loadDataset_Review(test)
 
     '''
-
-
-
-    
-
     # train word2vec on all the texts - both training and test set
     # we're not using test labels, just texts so this is fine
     #model = Word2Vec(X, size=100, window=5, min_count=5, workers=2)
@@ -97,19 +92,18 @@ def main():
     from sklearn.feature_extraction.text import TfidfTransformer
     from sklearn.naive_bayes import MultinomialNB
     from sklearn.metrics import confusion_matrix
+    
     tfidf_transformer = TfidfVectorizer()
 
-    clf = MultinomialNB().fit(tfidf_transformer.fit_transform(X_train), Y_train)
+    #clf = MultinomialNB().fit(tfidf_transformer.fit_transform(X_train), Y_train)
 
-    predict = clf.predict(tfidf_transformer.transform(X_test))
+    #predict = clf.predict(tfidf_transformer.transform(X_test))
 
-    print(accuracy(Y_test['section'].tolist(),predict))  
+    #print(accuracy(Y_test['section'].tolist(),predict))  
 
-    cm = confusion_matrix(Y_test['section'].tolist(), predict, labels = sections)
-    print(cm)
+    #m = confusion_matrix(Y_test['section'].tolist(), predict, labels = sections)
+    #print(cm)
 
-    '''
-    
     # start with the classics - naive bayes of the multinomial and bernoulli varieties
     # with either pure counts or tfidf features
     mult_nb = Pipeline(
@@ -141,6 +135,18 @@ def main():
 
 
     all_models = [
+        ("mult_nb_tfidf", mult_nb_tfidf),
+        ("bern_nb_tfidf", bern_nb_tfidf),
+        ("svc_tfidf", svc_tfidf),
+        ("w2v_tfidf", etree_w2v_tfidf),
+        ("random_w2v_tfidf", random_w2v_tfidf),
+    ]
+
+
+    '''
+
+
+    all_models = [
         ("mult_nb", mult_nb),
         ("mult_nb_tfidf", mult_nb_tfidf),
         ("bern_nb", bern_nb),
@@ -153,10 +159,14 @@ def main():
         ("random_w2v_tfidf", random_w2v_tfidf),
 
     ]
+    
+    '''
+    
     unsorted_scores = []
     for name, model in all_models:
         print("Training with ", name)
-        predict = model.fit(X_train, Y_train['section'].tolist() ).predict(X_test)
+        clf = model.fit(X_train,Y_train['section'].tolist())
+        predict = clf.predict(X_test)
         unsorted_scores.append((name,\
             accuracy(Y_test['section'].tolist(),predict),\
             f_measure(set(Y_test['section'].tolist()),set(predict)),\
@@ -168,10 +178,6 @@ def main():
     scores = sorted(unsorted_scores, key=lambda x: -x[1])
 
     print(tabulate(scores, floatfmt=".4f", headers=("model", 'Accuracy','F1','Precision','Recall')))
-
-	'''
-
-
 
 if __name__ == "__main__":
     main()
