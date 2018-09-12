@@ -1,7 +1,6 @@
 
 from TideneVectorizers import *
 from TideneReadCorpus import *
-from Patente import Patente
 import multiprocessing
 import pandas as pd
 import os
@@ -44,14 +43,14 @@ tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
 
 
 def main():
-    
+
     ########################################### PART 1 #################################
 
 
     #Load csv files
 
     itercsvW2V = TideneIterCSVW2V([TRAIN_SET_PATH,TEST_SET_PATH])
-    
+
 
     # Configura valores para o word2vec
     num_features = 100  # Word vector dimensionality
@@ -71,11 +70,10 @@ def main():
                     window=context, sample=downsampling, seed=1)
         model.save(model_name)
 
-    w2v = dict(zip(model.wv.index2word, model.wv.syn0))
 
 
-    
 
-        
+
+
 if __name__ == "__main__":
     main()

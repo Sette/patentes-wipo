@@ -9,7 +9,7 @@ import re
 from TideneReadCorpus import *
 
 PATH = "../../base-wipo/"
-PREPROCESS_PATH = "../../base-wipo/preprocess_lemm_stemm/"
+PREPROCESS_PATH = "../../base-wipo/preprocess/"
 TRAIN_SET_PATH = "../../base-wipo/treinamento.csv"
 TEST_SET_PATH = "../../base-wipo/treinamento.csv"
 
@@ -28,7 +28,7 @@ def load_CSV(train_or_test):
 
 	data = TideneIterCSVCorpus(PATH+train_or_test)
 
-	#Write csv file 
+	#Write csv file
 	with open(PREPROCESS_PATH+train_or_test, 'w') as csvfile_out:
 		spamwriter = csv.writer(csvfile_out, delimiter=';',quotechar='|', quoting=csv.QUOTE_MINIMAL)
 		spamwriter.writerow(["subgroup","maingroup","subclas","clas","section","othersipcs","data"])
@@ -41,7 +41,7 @@ def load_CSV(train_or_test):
 
 
 def main():
-    
+
     #Load csv files
     load_CSV("teste")
     load_CSV("treinamento")
