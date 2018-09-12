@@ -48,9 +48,10 @@ class TideneIterCSVCorpus(object):
 		for index,row in enumerate(self.reader):
 			print("Progress:", (index+1), "/", self.totalsents)
 			row[6] = re.sub("[^a-zA-Z]", " ", row[6].lower())
-			row[6] = [w for w in self.tokenizer.tokenize(row[6]) if w not in self.stopwords and len(w) > 3]
+			row[6] = [self.wordnet_lemmatizer.lemmatize(self.porter_stemmer.stem(w)) \
+			for w in self.tokenizer.tokenize(row[6]) if w not in self.stopwords \
+			and len(w) > 3]
 			row[6] = ' '.join(row[6])
-			row[6] = [self.wordnet_lemmatizer.lemmatize(self.porter_stemmer.stem(w)) for w in row[6]]
 			
 			index += 1
 		
