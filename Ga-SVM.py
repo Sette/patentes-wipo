@@ -2,18 +2,21 @@ import numpy as np
 import random
 from TideneReadCorpus import *
 import pandas as pd
+import os
 
 
 PATH = "../../base-wipo/preprocess_lemm_stemm/"
-
+treinamento = "treinamento.csv"
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
 
-X = TideneIterCSVClass(PATH+treinamento)
 
-
-Y = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
+y = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
                     header=0,delimiter=";",usecols=["section"], quoting=3)
+X = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
+                    header=0,delimiter=";", quoting=3)
+
+n = len(y)
 
 paramgrid = {"kernel": ["rbf"],
              "C"     : np.logspace(-9, 9, num=25, base=10),
