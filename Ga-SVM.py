@@ -15,7 +15,6 @@ from sklearn.model_selection import StratifiedKFold
 y = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
                     header=0,delimiter=";",usecols=["section"], quoting=3)
 
-
 '''
 X = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
                     header=0,delimiter=";",usecols=["data"], quoting=3)
@@ -47,5 +46,5 @@ cv = EvolutionaryAlgorithmSearchCV(estimator=SVC(),
                                    tournament_size=3,
                                    generations_number=5,
                                    n_jobs=4)
-                                   
+
 cv.fit(tfidf_transformer.fit_transform(X), y['section'].tolist())

@@ -28,7 +28,7 @@ from TideneReadCorpus import *
 
 
 #PATH = "../../base-wipo/preprocess/"
-PATH = "../../base-wipo/preprocess_lemm_stemm/"
+PATH = "../../base-wipo/preprocess-min/preprocess_token/"
 teste = "teste.csv"
 treinamento = "treinamento.csv"
 
@@ -54,6 +54,7 @@ def main():
     print("Conjunto de teste ...")
     result = [(x, Y_test['section'].tolist().count(x)) for x in sections]
     print(result)
+
 
     '''
     train = pd.read_csv(os.path.join(os.path.dirname(__file__),'labeledTrainData.tsv'),
@@ -127,11 +128,13 @@ def main():
                           ("extra trees", RandomForestClassifier(n_estimators=200))])
 
 
+
+    '''
     all_models = [
         ("w2v", etree_w2v),
     ]
 
-    '''
+
     all_models = [
         ("mult_nb_tfidf", mult_nb_tfidf),
         ("bern_nb_tfidf", bern_nb_tfidf),
@@ -139,9 +142,6 @@ def main():
         ("w2v_tfidf", etree_w2v_tfidf),
         ("random_w2v_tfidf", random_w2v_tfidf),
     ]
-
-    '''
-
 
     '''
 
@@ -158,9 +158,6 @@ def main():
         ("random_w2v_tfidf", random_w2v_tfidf),
 
     ]
-
-    '''
-
 
     unsorted_scores = []
     for name, model in all_models:
