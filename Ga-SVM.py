@@ -2,10 +2,11 @@ import numpy as np
 import random
 from TideneReadCorpus import *
 import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 import os
 
 
-PATH = "../../base-wipo/preprocess_lemm_stemm/"
+PATH = "../../base-wipo/preprocess-min/preprocess_token/"
 treinamento = "treinamento.csv"
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
@@ -13,8 +14,18 @@ from sklearn.model_selection import StratifiedKFold
 
 y = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
                     header=0,delimiter=";",usecols=["section"], quoting=3)
+
+
+'''
 X = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
-                    header=0,delimiter=";", quoting=3)
+                    header=0,delimiter=";",usecols=["data"], quoting=3)
+
+X = X["data"].tolist()
+'''
+
+X = TideneIterCSVClass(PATH+treinamento)
+
+tfidf_transformer = TfidfVectorizer()
 
 n = len(y)
 
@@ -36,4 +47,5 @@ cv = EvolutionaryAlgorithmSearchCV(estimator=SVC(),
                                    tournament_size=3,
                                    generations_number=5,
                                    n_jobs=4)
-cv.fit(X, y)
+                                   
+cv.fit(tfidf_transformer.fit_transform(X), y['section'].tolist())
