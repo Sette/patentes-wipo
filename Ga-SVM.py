@@ -29,8 +29,8 @@ tfidf_transformer = TfidfVectorizer()
 n = len(y)
 
 paramgrid = {"kernel": ["rbf"],
-             "C"     : np.logspace(0, 1, num=5, base=10),
-             "gamma" : np.logspace(0, 1, num=5, base=10)}
+             "C"     : np.logspace(-9, 9, num=5, base=10),
+             "gamma" : np.logspace(-9, 9, num=5, base=10)}
 
 random.seed(1)
 
@@ -41,10 +41,10 @@ cv = EvolutionaryAlgorithmSearchCV(estimator=SVC(),
                                    cv=StratifiedKFold(n_splits=4),
                                    verbose=1,
                                    population_size=10,
-                                   gene_mutation_prob=0.10,
-                                   gene_crossover_prob=0.5,
-                                   tournament_size=1,
-                                   generations_number=1,
-                                   n_jobs=4)
+                                   gene_mutation_prob=0.05,
+                                   gene_crossover_prob=0.25,
+                                   tournament_size=2,
+                                   generations_number=3,
+                                   n_jobs=2)
 
 cv.fit(tfidf_transformer.fit_transform(X), y['section'].tolist())

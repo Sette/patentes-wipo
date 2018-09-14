@@ -24,11 +24,13 @@ import nltk
 from nltk.metrics import *
 import gensim.models.word2vec as w2v
 from TideneReadCorpus import *
+from sklearn.model_selection import cross_val_score
+from sklearn.svm import LinearSVC
 
 
 
 #PATH = "../../base-wipo/preprocess/"
-PATH = "/home/bruno/base-wipo/preprocess/preprocess_token/"
+PATH = "/home/bruno/base-wipo/preprocess-AB-min/preprocess_token/"
 teste = "teste.csv"
 treinamento = "treinamento.csv"
 
@@ -56,20 +58,6 @@ def main():
     print(result)
 
 
-    '''
-    train = pd.read_csv(os.path.join(os.path.dirname(__file__),'labeledTrainData.tsv'),
-                        header=0,delimiter="\t", quoting=3)
-
-    X_w2v, y_w2v = loadDataset_Review(train)
-
-    train, test = train_test_split(train, train_size=0.7, random_state=42)
-
-    X,y = loadDataset_Review(train)
-
-    X_test,y_test = loadDataset_Review(test)
-
-    '''
-
     model_name = "100features_40minwords_10context"
     try:
         model = gensim.models.Word2Vec.load(model_name)
@@ -87,6 +75,21 @@ def main():
 
     tfidf_transformer = TfidfVectorizer()
 
+    #------------ SVC test ---------------------
+    X_train = TideneIterCSVClass(PATH+treinamento)
+    accuracies = cross_val_score(LinearSVC(), tfidf_transformer.fit_transform(X_train), Y_train['section'].tolist(), scoring='accuracy', cv=5)
+    entries = []
+    for fold_idx, accuracy in enumerate(accuracies):
+        entries.append(("SVC", fold_idx, accuracy))
+
+    cv_df = pd.DataFrame(entries, columns=['model_name', 'fold_idx', 'accuracy'])
+    print(cv_df)
+    return
+
+
+
+    #------------ MultinomialNB test ---------------------
+    X_train = TideneIterCSVClass(PATH+treinamento)
     #clf = MultinomialNB().fit(tfidf_transformer.fit_transform(X_train), Y_train)
 
     #predict = clf.predict(tfidf_transformer.transform(X_test))
@@ -95,7 +98,7 @@ def main():
 
     #m = confusion_matrix(Y_test['section'].tolist(), predict, labels = sections)
     #print(cm)
-
+    return
 
 
     # start with the classics - naive bayes of the multinomial and bernoulli varieties
@@ -174,7 +177,7 @@ def main():
             f_measure(set(Y_test['section'].tolist()),set(predict)),\
             precision(set(Y_test['section'].tolist()),set(predict)),\
             recall(set(Y_test['section'].tolist()),set(predict))))
-        
+
 
 
 
