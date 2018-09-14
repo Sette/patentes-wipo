@@ -21,7 +21,7 @@ class TideneIterCSVW2V(object):
 
 	def __iter__(self):
 		for index,row in enumerate(self.reader):
-			print("Progress:", (index+1), "/", self.totalsents)
+			#print("Progress:", (index+1), "/", self.totalsents)
 			yield re.sub("[^a-zA-Z]", " ", row[6].lower()) #['data']
 
 
@@ -47,7 +47,7 @@ class TideneIterCSVCorpus(object):
 	def __iter__(self):
 		index = 0
 		for index,row in enumerate(self.reader):
-			print("Progress:", (index+1), "/", self.totalsents)
+			#print("Progress:", (index+1), "/", self.totalsents)
 			row[6] = re.sub("[^a-zA-Z]", " ", row[6].lower())
 			#row[6] = [self.wordnet_lemmatizer.lemmatize(self.porter_stemmer.stem(w)) \
 			#for w in self.tokenizer.tokenize(row[6]) if w not in self.stopwords \
@@ -75,12 +75,9 @@ class TideneIterCSVClass(object):
 	def __iter__(self):
 		index = 0
 		for index,row in enumerate(self.reader):
-			print("Progress:", (index+1), "/", self.totalsents)
+			#print("Progress:", (index+1), "/", self.totalsents)
 			index += 1
 			yield row[6]  #['data']
-
-
-
 
 
 class TideneIterCSVGA(object):
@@ -97,7 +94,7 @@ class TideneIterCSVGA(object):
 	def __iter__(self):
 		index = 0
 		for index,row in enumerate(self.reader):
-			print("Progress:", (index+1), "/", self.totalsents)
+			#print("Progress:", (index+1), "/", self.totalsents)
 			index += 1
 			row[6] = [w for w in row[6]]
 			yield  np.array(row[6]) #['data']

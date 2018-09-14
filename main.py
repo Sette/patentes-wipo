@@ -28,7 +28,7 @@ from TideneReadCorpus import *
 
 
 #PATH = "../../base-wipo/preprocess/"
-PATH = "../../base-wipo/preprocess-min/preprocess_token/"
+PATH = "/home/bruno/base-wipo/preprocess/preprocess_token/"
 teste = "teste.csv"
 treinamento = "treinamento.csv"
 
@@ -146,6 +146,8 @@ def main():
     '''
 
     all_models = [
+        ("random_w2v", random_w2v),
+        ("w2v", etree_w2v),
         ("mult_nb", mult_nb),
         ("mult_nb_tfidf", mult_nb_tfidf),
         ("bern_nb", bern_nb),
@@ -153,11 +155,10 @@ def main():
         ("svc", svc),
         ("svc_tfidf", svc_tfidf),
         ("w2v", etree_w2v),
-        ("w2v_tfidf", etree_w2v_tfidf),
-        ("random_w2v", random_w2v),
-        ("random_w2v_tfidf", random_w2v_tfidf),
 
     ]
+
+
 
     unsorted_scores = []
     for name, model in all_models:
@@ -166,11 +167,16 @@ def main():
         print("Training with ", name)
         clf = model.fit(X_train,Y_train['section'].tolist())
         predict = clf.predict(X_test)
+        ac = accuracy(Y_test['section'].tolist(),predict)
+
         unsorted_scores.append((name,\
-            accuracy(Y_test['section'].tolist(),predict),\
+            ac,\
             f_measure(set(Y_test['section'].tolist()),set(predict)),\
             precision(set(Y_test['section'].tolist()),set(predict)),\
             recall(set(Y_test['section'].tolist()),set(predict))))
+        
+
+
 
     scores = sorted(unsorted_scores, key=lambda x: -x[1])
 

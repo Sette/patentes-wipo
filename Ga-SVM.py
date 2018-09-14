@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 import os
 
 
-PATH = "../../base-wipo/preprocess-min/preprocess_token/"
+PATH = "/home/bruno/base-wipo/preprocess-AB-min/preprocess_token/"
 treinamento = "treinamento.csv"
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
@@ -29,8 +29,8 @@ tfidf_transformer = TfidfVectorizer()
 n = len(y)
 
 paramgrid = {"kernel": ["rbf"],
-             "C"     : np.logspace(-9, 9, num=25, base=10),
-             "gamma" : np.logspace(-9, 9, num=25, base=10)}
+             "C"     : np.logspace(0, 1, num=5, base=10),
+             "gamma" : np.logspace(0, 1, num=5, base=10)}
 
 random.seed(1)
 
@@ -40,11 +40,11 @@ cv = EvolutionaryAlgorithmSearchCV(estimator=SVC(),
                                    scoring="accuracy",
                                    cv=StratifiedKFold(n_splits=4),
                                    verbose=1,
-                                   population_size=50,
+                                   population_size=10,
                                    gene_mutation_prob=0.10,
                                    gene_crossover_prob=0.5,
-                                   tournament_size=3,
-                                   generations_number=5,
+                                   tournament_size=1,
+                                   generations_number=1,
                                    n_jobs=4)
 
 cv.fit(tfidf_transformer.fit_transform(X), y['section'].tolist())

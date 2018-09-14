@@ -31,8 +31,8 @@ import gensim.models.word2vec as w2v
 
 csv.field_size_limit(10**9)
 PATH = "../../base-wipo/"
-TRAIN_SET_PATH = "../../base-wipo/treinamento.csv"
-TEST_SET_PATH = "../../base-wipo/teste.csv"
+TRAIN_SET_PATH = "../../base-wipo/preprocess-AB-min/treinamento.csv"
+TEST_SET_PATH = "../../base-wipo/preprocess-AB-min/teste.csv"
 
 
 encoding="utf-8"
