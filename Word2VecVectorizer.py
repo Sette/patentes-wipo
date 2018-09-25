@@ -6,14 +6,13 @@ class Word2VecVectorizer():
         self.word_vectors = word_vectors
 
     def fit(self, lst_tokens):
-      pass
+        pass
 
     #para cada sentenca tokenizada ele representa cada palavra segundo a
     #representacao w2v e depois tira a media de todas as palavras da sentenca
-    def transform(self, lst_tokens, len_token): #pega uma lista de tokens
-
+    def transform(self, lst_tokens, len_tokens): #pega uma lista de tokens
         self.D = self.word_vectors.get_vector(self.word_vectors.index2word[0]).shape[0]
-        X = np.zeros(len_token, self.D)
+        X = np.zeros(len_tokens, self.D)
         n = 0
         emptycount = 0
         for tokens in lst_tokens:
@@ -36,6 +35,6 @@ class Word2VecVectorizer():
         return X
 
 
-    def fit_transform(self, lst_token, len_tokens):
+    def fit_transform(self, lst_tokens, len_tokens):
         self.fit(lst_tokens)
         return self.transform(lst_tokens, len_tokens)
