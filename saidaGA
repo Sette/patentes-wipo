@@ -1,1 +1,9 @@
 Types [1, 2, 2] and maxint [0, 4, 4] detected
+--- Evolve in 25 possible combinations ---
+gen	nevals	avg    	min     	max     	std      
+0  	10    	0.67442	0.650353	0.747634	0.0324423
+1  	1     	0.688928	0.650353	0.747634	0.0363115
+2  	1     	0.703267	0.650353	0.747634	0.0263062
+3  	7     	0.733169	0.69815 	0.751431	0.0229522
+Best individual is: {'kernel': 'rbf', 'C': 1.0, 'gamma': 1.0}
+with fitness: 0.7514314990054849

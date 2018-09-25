@@ -1,0 +1,10 @@
+Conjunto de treinamento ...
+[('A', 5801), ('B', 10790), ('C', 0), ('D', 0), ('E', 0), ('F', 0), ('G', 0), ('H', 0)]
+Conjunto de teste ...
+[('A', 5158), ('B', 3899), ('C', 0), ('D', 0), ('E', 0), ('F', 0), ('G', 0), ('H', 0)]
+  model_name  fold_idx  accuracy
+0        SVC         0  0.759265
+1        SVC         1  0.762206
+2        SVC         2  0.730561
+3        SVC         3  0.801085
+4        SVC         4  0.772453
