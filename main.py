@@ -34,11 +34,7 @@ PATH = "/home/bruno/base-wipo/preprocess/preprocess_token/"
 teste = "teste.csv"
 treinamento = "treinamento.csv"
 
-
-
 def main():
-
-
     #X_test = TideneIterCSVClass(PATH+teste)
     #X_train = TideneIterCSVClass(PATH+treinamento)
 
@@ -64,6 +60,7 @@ def main():
     except:
         print("Modelo não encontrado, por favor gere o modelo w2v")
         return
+
 
 
     w2v = dict(zip(model.wv.index2word, model.wv.syn0))
