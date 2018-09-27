@@ -30,7 +30,7 @@ from sklearn.svm import LinearSVC
 
 
 #PATH = "../../base-wipo/preprocess/"
-PATH = "/home/bruno/base-wipo/preprocess-AB-min/preprocess_token/"
+PATH = "/home/bruno/base-wipo/preprocess/preprocess_token/"
 teste = "teste.csv"
 treinamento = "treinamento.csv"
 
@@ -75,6 +75,21 @@ def main():
 
     tfidf_transformer = TfidfVectorizer()
 
+    #------------ LinearSVC test ---------------------
+    X_train = TideneIterCSVClass(PATH+treinamento)
+    X_test = TideneIterCSVClass(PATH+teste)
+    clf = LinearSVC(C=0.03162277660168379).fit(tfidf_transformer.fit_transform(X_train), Y_train['section'].tolist())
+
+    predict = clf.predict(tfidf_transformer.transform(X_test))
+
+    print(accuracy(Y_test['section'].tolist(),predict))
+
+    cm = confusion_matrix(Y_test['section'].tolist(), predict, labels = sections)
+    print(cm)
+    return
+
+
+    '''
     #------------ SVC test ---------------------
     X_train = TideneIterCSVClass(PATH+treinamento)
     accuracies = cross_val_score(LinearSVC(), tfidf_transformer.fit_transform(X_train), Y_train['section'].tolist(), scoring='accuracy', cv=5)
@@ -86,10 +101,11 @@ def main():
     print(cv_df)
     return
 
-
+    '''
 
     #------------ MultinomialNB test ---------------------
     X_train = TideneIterCSVClass(PATH+treinamento)
+    X_test = TideneIterCSVClass(PATH+teste)
     #clf = MultinomialNB().fit(tfidf_transformer.fit_transform(X_train), Y_train)
 
     #predict = clf.predict(tfidf_transformer.transform(X_test))

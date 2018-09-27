@@ -9,8 +9,8 @@ import re
 from TideneReadCorpus import *
 import xml.etree.ElementTree as ET
 from TideneSaves import TideneSaves
-PATH = "../../base-wipo/zip/"
-PREPROCESS_PATH = "../../base-wipo/preprocess-min/"
+PATH = "../../base-wipo/zipAB-min/"
+PREPROCESS_PATH = "../../base-wipo/preprocess-AB-min/"
 TRAIN_SET_PATH = PREPROCESS_PATH + "treinamento.csv"
 TEST_SET_PATH = PREPROCESS_PATH + "teste.csv"
 
