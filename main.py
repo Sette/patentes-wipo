@@ -34,11 +34,7 @@ PATH = "/home/bruno/base-wipo/preprocess/preprocess_token/"
 teste = "teste.csv"
 treinamento = "treinamento.csv"
 
-
-
 def main():
-
-
     #X_test = TideneIterCSVClass(PATH+teste)
     #X_train = TideneIterCSVClass(PATH+treinamento)
 
@@ -64,6 +60,7 @@ def main():
     except:
         print("Modelo não encontrado, por favor gere o modelo w2v")
         return
+
 
 
     w2v = dict(zip(model.wv.index2word, model.wv.syn0))
@@ -92,6 +89,16 @@ def main():
     '''
     #------------ SVC test ---------------------
     X_train = TideneIterCSVClass(PATH+treinamento)
+    X_test = TideneIterCSVClass(PATH+teste)
+    clf = LinearSVC().fit(tfidf_transformer.fit_transform(X_train), Y_train['section'].tolist())
+    predict = clf.predict(tfidf_transformer.transform(X_test))
+
+    print(accuracy(Y_test['section'].tolist(),predict))
+
+    cm = confusion_matrix(Y_test['section'].tolist(), predict, labels = sections)
+    print(cm)
+
+    '''
     accuracies = cross_val_score(LinearSVC(), tfidf_transformer.fit_transform(X_train), Y_train['section'].tolist(), scoring='accuracy', cv=5)
     entries = []
     for fold_idx, accuracy in enumerate(accuracies):
@@ -99,6 +106,7 @@ def main():
 
     cv_df = pd.DataFrame(entries, columns=['model_name', 'fold_idx', 'accuracy'])
     print(cv_df)
+    '''
     return
 
     '''

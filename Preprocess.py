@@ -8,8 +8,13 @@ import numpy as np
 import re
 from TideneReadCorpus import *
 
+<<<<<<< HEAD
 PATH = "../../base-wipo/preprocess-AB-min/"
 PREPROCESS_PATH = "../../base-wipo/preprocess-AB-min/preprocess_token/"
+=======
+PATH = "../../base-wipo/base-total-300/"
+PREPROCESS_PATH = PATH + "/preprocess_stop/"
+>>>>>>> 7f4b3b82d9362ed87993351474af4c3b5f494f84
 
 
 encoding="utf-8"
