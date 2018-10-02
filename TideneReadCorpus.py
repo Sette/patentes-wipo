@@ -95,5 +95,4 @@ class TideneIterCSVGA(object):
 		for index,row in enumerate(self.reader):
 			#print("Progress:", (index+1), "/", self.totalsents)
 			index += 1
-			row[6] = [w for w in row[6]]
-			yield  np.array(row[6]) #['data']
+			yield  row[6] #['data']

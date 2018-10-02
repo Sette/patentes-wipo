@@ -11,7 +11,7 @@ from sklearn.ensemble import ExtraTreesClassifier,RandomForestClassifier
 
 rand_st = 42
 
-PATH = "/home/bruno/base-wipo/preprocess/preprocess_token/"
+PATH = "/home/bruno/base-wipo/preprocess-AB-min/preprocess_token/"
 treinamento = "treinamento.csv"
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
@@ -27,7 +27,7 @@ X = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
 X = X["data"].tolist()
 '''
 
-X = TideneIterCSVClass(PATH+treinamento)
+X = TideneIterCSVGA(PATH+treinamento)
 
 tfidf_transformer = TfidfVectorizer()
 
@@ -97,4 +97,4 @@ cv = EvolutionaryAlgorithmSearchCV(estimator=LinearSVC(),
                                    generations_number=5,
                                    n_jobs=4)
 
-cv.fit(tfidf_transformer.fit_transform(X), y['section'].tolist())
+out = cv.fit(tfidf_transformer.fit_transform(X), y['section'].tolist())
