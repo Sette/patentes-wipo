@@ -76,7 +76,7 @@ class TideneIterCSVClass(object):
 		for index,row in enumerate(self.reader):
 			#print("Progress:", (index+1), "/", self.totalsents)
 			index += 1
-			yield row[6].split()  #['data']
+			yield row[6]  #['data']
 
 
 class TideneIterCSVGA(object):
