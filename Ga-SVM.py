@@ -9,9 +9,10 @@ from sklearn.svm import LinearSVC
 from MeanEmbeddingVectorizer import *
 from sklearn.ensemble import ExtraTreesClassifier,RandomForestClassifier
 
+from evolutionary_search import EvolutionaryAlgorithmSearchCV
 rand_st = 42
 
-PATH = "/home/bruno/base-wipo/preprocess-AB-min/preprocess_token/"
+PATH = "/home/sette/base-wipo/preprocess-min/preprocess_stop/"
 treinamento = "treinamento.csv"
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
@@ -97,4 +98,4 @@ cv = EvolutionaryAlgorithmSearchCV(estimator=LinearSVC(),
                                    generations_number=5,
                                    n_jobs=4)
 
-out = cv.fit(tfidf_transformer.fit_transform(X), y['section'].tolist())
+cv.fit(tfidf_transformer.fit_transform(X), y['section'].tolist())
