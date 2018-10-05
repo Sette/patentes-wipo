@@ -101,9 +101,14 @@ def train(elem):
 def main():
     data = pd.read_csv("saida-artigo.csv",delimiter=";")
 
+
+    train(['Geral',0.03162277660168379])
+
+    '''
     for elem in data.values:
         train(list(elem))
     return
+    '''
 
 
     teste = list(data.c.values)

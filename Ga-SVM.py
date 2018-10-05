@@ -12,14 +12,14 @@ from sklearn.ensemble import ExtraTreesClassifier,RandomForestClassifier
 from evolutionary_search import EvolutionaryAlgorithmSearchCV
 rand_st = 42
 
-PATH = "/home/sette/base-wipo/preprocess-min/preprocess_stop/"
+PATH = "/home/sette/base-wipo/preprocess-artigo/GH/"
 treinamento = "treinamento.csv"
 from sklearn.svm import SVC
 from sklearn.model_selection import StratifiedKFold
 
 
 y = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
-                    header=0,delimiter=";",usecols=["section"], quoting=3)
+                    header=0,delimiter=",",usecols=["section"], quoting=3)
 
 '''
 X = pd.read_csv(os.path.join(os.path.dirname(__file__),PATH+treinamento),
