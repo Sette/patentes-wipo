@@ -35,6 +35,8 @@ teste = "teste.csv"
 treinamento = "treinamento.csv"
 
 def main():
+
+
     #X_test = TideneIterCSVClass(PATH+teste)
     #X_train = TideneIterCSVClass(PATH+treinamento)
 

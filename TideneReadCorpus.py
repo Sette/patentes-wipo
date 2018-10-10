@@ -79,6 +79,24 @@ class TideneIterCSVClass(object):
 			yield row[6]  #['data']
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class TideneIterCSVGA(object):
 	def __init__(self,csvfile):
 		self.tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
